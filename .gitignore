@@ -1,10 +1,11 @@
-#! Block all .i, .s, .o, .bin, .hex, .exe files
+#! Block all .i, .s, .o, .bin, .hex, .exe, .elf files
 *.i
 *.s
 *.o
 *.bin
 *.hex
 *.exe
+*.elf
 
 #! Block hidden file of VS Code
 .vscode/
