@@ -12,6 +12,6 @@ else
 
 	INCLUDES = -I../include/CMSIS\
 	           -I../include/common\
-			   -I../includemsp432
+			   -I../include/msp432
 
 endif
