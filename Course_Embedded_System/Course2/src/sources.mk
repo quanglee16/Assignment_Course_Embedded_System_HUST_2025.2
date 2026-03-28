@@ -1,3 +1,4 @@
+# Change new OS
 ifeq ($(PLATFORM), HOST)  
     SOURCES = main.c\
 	          memory.c
