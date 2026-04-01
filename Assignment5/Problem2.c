@@ -5,101 +5,89 @@
 
 #define HASH_SIZE 101
 
-// Cấu trúc một nút trong danh sách liên kết
-typedef struct nlist {
-    struct nlist *next;
-    char *word;
+//TODO Define struct node
+typedef struct node_list {
+    struct node_list *next;
+    char* word;
     int count;
 } Node;
 
-// Khởi tạo bảng băm (mảng các con trỏ NULL)
-static Node *hashtab[HASH_SIZE];
+//TODO Define Hash Table
+static Node* hash_table[HASH_SIZE];
 
-// Hàm băm: Biến chuỗi thành chỉ số mảng (0 - 100)
-unsigned int hash(char *s) {
-    unsigned int hashval = 0;
-    for (hashval = 0; *s != '\0'; s++) {
-        hashval = *s + 31 * hashval;
+//TODO Hash Function that change string to index (0-100)
+unsigned int hash(char* s) {
+    unsigned int hash_value = 0;
+    for (hash_value = 0; *s != '\0'; s++) {
+        hash_value = *s + 31 * hash_value;
     }
-    return hashval % HASH_SIZE;
+    return hash_value % HASH_SIZE;
 }
 
-// Hàm tra cứu: Tìm từ, nếu create=1 thì thêm mới nếu không thấy
-Node *lookup(char *s, int create) {
-    Node *np;
+//TODO Function lookup that find word or create 
+Node* lookup(char* s, int create) {
+    Node* node_present;
     unsigned int h = hash(s);
 
-    // Duyệt danh sách liên kết tại vị trí hash tương ứng
-    for (np = hashtab[h]; np != NULL; np = np->next) {
-        if (strcmp(s, np->word) == 0) { // Phân biệt hoa thường ở đây
-            return np;
+    //? Find word 
+    for (node_present = hash_table[h]; node_present != NULL; node_present = node_present->next) {
+        if (strcmp(s, node_present->word) == 0) { 
+            return node_present;
         }
     }
 
-    // Nếu không tìm thấy và yêu cầu tạo mới
+    //? Create new index if don't find
     if (create) {
-        np = (Node *) malloc(sizeof(Node));
-        if (np == NULL || (np->word = strdup(s)) == NULL) {
+        node_present = (Node*)malloc(sizeof(Node));
+        if (node_present == NULL || (node_present->word = strdup(s)) == NULL) {
             return NULL;
         }
-        np->count = 0;
-        np->next = hashtab[h]; // Thêm vào đầu chuỗi (Chaining)
-        hashtab[h] = np;
+        //* Add at head
+        node_present->count = 0;
+        node_present->next = hash_table[h];
+        hash_table[h] = node_present;
     }
-    return np;
+    return node_present;
 }
 
-// Hàm giải phóng bộ nhớ để tránh rò rỉ (Memory Leak)
+//TODO Dellocate Memory
 void cleartable() {
-    Node *np, *tmp;
+    Node *node_present, *node_temp;
     for (int i = 0; i < HASH_SIZE; i++) {
-        np = hashtab[i];
-        while (np != NULL) {
-            tmp = np;
-            np = np->next;
-            free(tmp->word); // Giải phóng chuỗi từ được tạo bởi strdup
-            free(tmp);       // Giải phóng nút Node
+        node_present = hash_table[i];
+        while (node_present != NULL) {
+            node_temp = node_present;
+            node_present = node_present->next;
+            free(node_temp->word); 
+            free(node_temp);      
         }
-        hashtab[i] = NULL;
+        hash_table[i] = NULL;
     }
 }
 
 int main() {
-    FILE *f = fopen("book.txt", "r");
+    FILE* f = fopen("book.txt", "r");
     if (f == NULL) {
-        printf("Loi: Khong the mo file 'book.txt'. Vui long kiem tra lai file!\n");
+        printf("Error: Check the file!\n");
         return 1;
     }
 
     char raw_word[100];
-    // Đọc từng cụm ký tự cách nhau bởi khoảng trắng
     while (fscanf(f, "%99s", raw_word) != EOF) {
-        
         int start = 0;
         int end = strlen(raw_word) - 1;
-
-        // Kỹ thuật gọt dấu câu bằng start và end
-        // Loại bỏ ký tự đặc biệt ở ĐẦU (ví dụ: "(Hoc" -> "Hoc")
         while (start <= end && ispunct((unsigned char)raw_word[start])) {
             start++;
         }
-
-        // Loại bỏ ký tự đặc biệt ở CUỐI (ví dụ: "vui!!!" -> "vui")
         while (end >= start && ispunct((unsigned char)raw_word[end])) {
             end--;
         }
-
-        // Nếu sau khi gọt vẫn còn ký tự hợp lệ
         if (start <= end) {
             int len = end - start + 1;
             char clean_word[101];
-            
-            // Trích xuất phần từ "sạch"
             strncpy(clean_word, &raw_word[start], len);
-            clean_word[len] = '\0'; // Đảm bảo kết thúc chuỗi
-
-            // Đưa vào bảng băm để đếm
-            Node *p = lookup(clean_word, 1);
+            clean_word[len] = '\0'; 
+            Node* p = lookup(clean_word, 1);
             if (p != NULL) {
                 p->count++;
             }
@@ -107,18 +95,14 @@ int main() {
     }
     fclose(f);
 
-    // In bảng thống kê kết quả
-    printf("\n%-20s | %s\n", "TU VUNG", "SO LAN XUAT HIEN");
-    printf("--------------------------------------------\n");
+    printf("\n%-10s | %s\n", "WORD", "FREQUENCE");
     for (int i = 0; i < HASH_SIZE; i++) {
-        for (Node *np = hashtab[i]; np != NULL; np = np->next) {
-            printf("%-20s | %d\n", np->word, np->count);
+        for (Node *np = hash_table[i]; np != NULL; np = np->next) {
+            printf("%-10s | %d\n", np->word, np->count);
         }
     }
 
-    // Dọn dẹp bộ nhớ trước khi thoát
     cleartable();
-    printf("\n[Thanh cong] Da giai phong bo nho.\n");
 
     return 0;
 }
