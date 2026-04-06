@@ -26,7 +26,7 @@ ifeq ($(PLATFORM), HOST)
 else
     CC = arm-none-eabi-gcc
 	LD = arm-none-eabi-ld
-	LDFLAGS = -Wl,-Map=$(TARGET).map -T $(LINKER_SCRIPT) 
+	LDFLAGS = -Wl,-Map=$(TARGET).map -T $(LINKER_SCRIPT) -Wl,--build-id=none
 	CFLAGS = -mcpu=$(CPU) -m$(ARCH) -march=$(ARCH_CAT)\
 	 		 --specs=$(SPECS) $(GCFLAGS) 
 	CPPFLAGS = -DMSP432
