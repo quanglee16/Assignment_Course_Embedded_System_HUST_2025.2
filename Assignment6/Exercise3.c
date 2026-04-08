@@ -40,8 +40,7 @@ int main(int argc, char *argv[]) {
                     push(pop() * pop());
                     break;
                 case '-':
-                    op2 = pop();
-                    push(pop() - op2);
+                    push(pop() - pop());
                     break;
                 case '/':
                     op2 = pop();
@@ -56,6 +55,6 @@ int main(int argc, char *argv[]) {
         } else push(atof(s));
     }
 
-    printf("\t%.8g\n", pop());
+    printf("\n%.lf\n", pop());
     return 0;
 }
