@@ -4,6 +4,7 @@ int main() {
     int c;
     int last_character = '\0';
 
+    printf("===== ENTER TEXT =====\n");
     while((c = getchar()) != EOF) {
         if(c != ' ' || last_character != ' ') putchar(c);
         last_character = c;
