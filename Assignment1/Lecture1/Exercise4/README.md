@@ -37,7 +37,7 @@ int main() {
 ## 🚀 Cách chạy chương trình
 1. Di chuyển tới đường dẫn chứa file `Exercise4.c`
 2. Biên dịch: `gcc Exercise4.c -o Exercise4.out`
-3. Chạy: `./Exercise4.out` (Sau đó nhập văn bản và nhấn `Ctrl+D` để kết thúc).
+3. Chạy: `./Exercise4.out` (Sau đó nhập văn bản và nhấn `Ctrl+D` để kết thúc)
 
 ## 📊 Kết quả thực tế
 Đây là ảnh chụp màn hình kết quả khi chạy chương trình với một đoạn văn bản đầu vào:
