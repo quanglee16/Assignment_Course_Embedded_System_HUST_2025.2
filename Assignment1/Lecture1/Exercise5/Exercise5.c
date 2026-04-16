@@ -3,6 +3,7 @@
 int main() {
     int c;
 
+    printf("===== ENTER TEXT =====\n");
     while((c = getchar()) != EOF) {
         if(c == '\t') {
             putchar('\\');
