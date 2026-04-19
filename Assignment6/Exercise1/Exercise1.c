@@ -20,7 +20,13 @@ int main() {
     char string1[] = "Programming Embedded";
     char string2[] = "Programming";
     char string3[] = " Embedded";
-    printf("Result 1 (string %s occurs at the end of the string %s): %d\n", string2, string1, strend(string1, string2));
-    printf("Result 1 (string %s occurs at the end of the string %s): %d\n", string1, string2, strend(string2, string1));
-    printf("Result 1 (string %s occurs at the end of the string %s): %d\n", string3, string1, strend(string1, string3));
+
+    printf("===== RESULT =====\n");
+    printf("s: '%s'\n", string1);
+    printf("t: '%s'\n", string2);
+    printf("Result: %d\n", strend(string1, string2));
+    printf("t: '%s'\n", string3);
+    printf("Result: %d\n", strend(string1, string3));
+
+    return 0;
 }
