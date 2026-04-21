@@ -54,20 +54,20 @@ int main() {
     };
     int n = sizeof(list_student) / sizeof(list_student[0]);
 
-    printf("List\n");
+    printf("===== Original List =====\n");
     print_students(list_student, n);
 
     //* Sort about firsname
-    printf("\nSort about firsname\n");
+    printf("===== Sort list by firstname =====\n");
     qsort(list_student, n, sizeof(Student), compare_firstname);
     print_students(list_student, n);
 
     //* Sort about lastname
-    printf("\nSort about lastname\n");
+    printf("===== Sort list by lastname =====\n");
     qsort(list_student, n, sizeof(Student), compare_lastname);
     print_students(list_student, n);
 
-    printf("\nList Students that have age large 20\n");
+    printf("===== List Students that have age large 20 =====\n");
     apply(list_student, n, isolder);
 
     return 0;
