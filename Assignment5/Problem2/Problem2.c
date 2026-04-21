@@ -7,9 +7,9 @@
 
 //TODO Define struct node
 typedef struct node_list {
-    struct node_list *next;
     char* word;
     int count;
+    struct node_list *next;
 } Node;
 
 //TODO Define Hash Table
@@ -68,12 +68,12 @@ void cleartable() {
 int main() {
     FILE* f = fopen("book.txt", "r");
     if (f == NULL) {
-        printf("Error: Check the file!\n");
+        printf("Error: Don't open file book.txt!\n");
         return 1;
     }
 
     char raw_word[100];
-    while (fscanf(f, "%99s", raw_word) != EOF) {
+    while (fscanf(f, "%s", raw_word) != EOF) {
         int start = 0;
         int end = strlen(raw_word) - 1;
         while (start <= end && ispunct((unsigned char)raw_word[start])) {
@@ -95,10 +95,11 @@ int main() {
     }
     fclose(f);
 
-    printf("\n%-10s | %s\n", "WORD", "FREQUENCE");
+    printf("===== RESULT =====");
+    printf("\n%s | %s\n", "WORD", "FREQUENCE");
     for (int i = 0; i < HASH_SIZE; i++) {
         for (Node *np = hash_table[i]; np != NULL; np = np->next) {
-            printf("%-10s | %d\n", np->word, np->count);
+            printf("%s | %d\n", np->word, np->count);
         }
     }
 
