@@ -1,7 +1,7 @@
 #include "hashtable.h"
 
 int main() {
-    Node* my_buckets[TABLE_SIZE];
+    Person* my_buckets[TABLE_SIZE];
     init_table(my_buckets);
 
     insert(my_buckets, "An", "0911");

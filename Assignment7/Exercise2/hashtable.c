@@ -3,7 +3,7 @@
 #include <string.h>
 #include "hashtable.h"
 
-void init_table(Node* buckets[]) {
+void init_table(Person* buckets[]) {
     for (int i = 0; i < TABLE_SIZE; i++) buckets[i] = NULL;
 }
 
@@ -16,18 +16,18 @@ unsigned int hash(char *str) {
     return hash_val % TABLE_SIZE;
 }
 
-void insert(Node* buckets[], char *name, char *phone) {
+void insert(Person* buckets[], char *name, char *phone) {
     unsigned int index = hash(name);
-    Node* newNode = (Node*)malloc(sizeof(Node));
+    Person* newNode = (Person*)malloc(sizeof(Person));
     strcpy(newNode->name, name);
     strcpy(newNode->phone, phone);
     newNode->next = buckets[index];
     buckets[index] = newNode;
 }
 
-void search(Node* buckets[], char *name) {
+void search(Person* buckets[], char *name) {
     unsigned int index = hash(name);
-    Node* temp = buckets[index];
+    Person* temp = buckets[index];
     int found = 0;
     printf("\nTim kiem '%s':\n", name);
     while (temp) {
@@ -40,9 +40,9 @@ void search(Node* buckets[], char *name) {
     if (!found) printf("  (Khong tim thay)\n");
 }
 
-void delete_contact(Node* buckets[], char *name, char *phone) {
+void delete_contact(Person* buckets[], char *name, char *phone) {
     unsigned int index = hash(name);
-    Node *temp = buckets[index], *prev = NULL;
+    Person *temp = buckets[index], *prev = NULL;
     while (temp) {
         if (strcmp(temp->name, name) == 0 && strcmp(temp->phone, phone) == 0) {
             if (!prev) buckets[index] = temp->next;
@@ -55,10 +55,10 @@ void delete_contact(Node* buckets[], char *name, char *phone) {
     }
 }
 
-void display(Node* buckets[]) {
+void display(Person* buckets[]) {
     printf("\n--- DANH BA ---\n");
     for (int i = 0; i < TABLE_SIZE; i++) {
-        Node* temp = buckets[i];
+        Person* temp = buckets[i];
         if (temp) {
             printf("Bucket %d: ", i);
             while (temp) {
@@ -70,11 +70,11 @@ void display(Node* buckets[]) {
     }
 }
 
-void clear_table(Node* buckets[]) {
+void clear_table(Person* buckets[]) {
     for (int i = 0; i < TABLE_SIZE; i++) {
-        Node* temp = buckets[i];
+        Person* temp = buckets[i];
         while (temp) {
-            Node* to_free = temp;
+            Person* to_free = temp;
             temp = temp->next;
             free(to_free);
         }

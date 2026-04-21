@@ -2,19 +2,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define TABLE_SIZE 11 // Sử dụng số nguyên tố để tối ưu phân tán
+#define TABLE_SIZE 11 
 
-// Cấu trúc nút trong danh sách liên kết
-typedef struct Node {
+//TODO Cấu trúc nút trong danh sách liên kết
+typedef struct Person {
     char name[50];
     char phone[15];
-    struct Node* next;
-} Node;
+    struct Person* next;
+} Person;
 
-// Bảng băm
-Node* buckets[TABLE_SIZE];
+//TODO Bảng băm
+Person* buckets[TABLE_SIZE];
 
-// Hàm băm đa thức
+//TODO Hàm băm
 unsigned int hash(char *str) {
     unsigned int hash_val = 0;
     while (*str) {
@@ -24,12 +24,12 @@ unsigned int hash(char *str) {
     return hash_val % TABLE_SIZE;
 }
 
-// 1. Chèn liên hệ (Cho phép trùng tên, nhưng khác số điện thoại)
+//TODO Chèn liên hệ (Cho phép trùng tên, nhưng khác số điện thoại)
 void insert(char *name, char *phone) {
     unsigned int index = hash(name);
     
-    // Kiểm tra xem cặp Name-Phone này đã tồn tại chưa để tránh trùng lặp dư thừa
-    Node* temp = buckets[index];
+    //? Kiểm tra xem cặp name-phone này đã tồn tại chưa để tránh trùng lặp dư thừa
+    Person* temp = buckets[index];
     while (temp) {
         if (strcmp(temp->name, name) == 0 && strcmp(temp->phone, phone) == 0) {
             printf("Lien he '%s - %s' da ton tai!\n", name, phone);
@@ -38,19 +38,20 @@ void insert(char *name, char *phone) {
         temp = temp->next;
     }
 
-    Node* newNode = (Node*)malloc(sizeof(Node));
+    Person* newNode = (Person*)malloc(sizeof(Person));
     strcpy(newNode->name, name);
     strcpy(newNode->phone, phone);
     
+    //? Cho liên hệ mới vào đầu danh sách liên kết
     newNode->next = buckets[index];
     buckets[index] = newNode;
-    printf("Da them: %-10s | SDT: %-10s (Bucket %d)\n", name, phone, index);
+    printf("Them lien he moi: %s | SDT: %s (Bucket %d)\n", name, phone, index);
 }
 
-// 2. Tìm kiếm tất cả các số điện thoại trùng tên
+//TODO Tìm kiếm tất cả các số điện thoại trùng tên
 void search(char *name) {
     unsigned int index = hash(name);
-    Node* temp = buckets[index];
+    Person* temp = buckets[index];
     int count = 0;
     
     printf("\nKet qua tim kiem cho '%s':\n", name);
@@ -61,14 +62,14 @@ void search(char *name) {
         }
         temp = temp->next;
     }
-    if (count == 0) printf("  (Khong tim thấy lien he nay)\n");
+    if (count == 0) printf("Khong tim thay lien he nay\n");
 }
 
-// 3. Xóa chính xác một liên hệ (dựa trên tên và số điện thoại)
+//TODO Xóa một liên hệ (dựa trên tên và số điện thoại)
 void delete_contact(char *name, char *phone) {
     unsigned int index = hash(name);
-    Node* temp = buckets[index];
-    Node* prev = NULL;
+    Person* temp = buckets[index];
+    Person* prev = NULL;
 
     while (temp != NULL) {
         if (strcmp(temp->name, name) == 0 && strcmp(temp->phone, phone) == 0) {
@@ -76,7 +77,7 @@ void delete_contact(char *name, char *phone) {
             else prev->next = temp->next;
             
             free(temp);
-            printf("Da xoa thanh cong: %s - %s\n", name, phone);
+            printf("Xoa thanh cong: %s - %s\n", name, phone);
             return;
         }
         prev = temp;
@@ -85,12 +86,12 @@ void delete_contact(char *name, char *phone) {
     printf("Khong tim thay lien he %s - %s de xoa!\n", name, phone);
 }
 
-// Hàm in toàn bộ bảng băm để kiểm tra cấu trúc Chaining
+//TODO Hàm in bảng băm 
 void display() {
-    printf("\n--- TRANG THAI BANG BAM (CHAINING) ---\n");
+    printf("\n===== BANG BAM =====\n");
     for (int i = 0; i < TABLE_SIZE; i++) {
-        printf("Bucket %02d: ", i);
-        Node* temp = buckets[i];
+        printf("Bucket %d: ", i);
+        Person* temp = buckets[i];
         if (!temp) printf("EMPTY");
         while (temp) {
             printf("[%s|%s] -> ", temp->name, temp->phone);
@@ -98,35 +99,35 @@ void display() {
         }
         printf("NULL\n");
     }
-    printf("--------------------------------------\n");
 }
 
 int main() {
-    // Khoi tao buckets
+    //* Khoi tao buckets
     for (int i = 0; i < TABLE_SIZE; i++) buckets[i] = NULL;
 
-    // --- KIEM THU ---
-    // 1. Nhập 8 liên hệ (Có trùng tên 'An' và 'Binh')
+    //* Nhập 8 liên hệ 
     insert("An", "0911");
     insert("Binh", "0922");
-    insert("An", "0888"); // Trùng tên An
-    insert("Chi", "0933");
-    insert("Dung", "0944");
-    insert("Binh", "0777"); // Trùng tên Binh
-    insert("Hoa", "0966");
-    insert("Khoa", "0977");
+    insert("An", "0888"); 
+    insert("Quang", "0933");
+    insert("Le", "0944");
+    insert("Kien", "0777"); 
+    insert("Quang", "0966");
+    insert("Dang", "0977");
 
+    //* In ra bảng băm
     display();
 
-    // 2. Tìm kiếm 3 tên
-    search("An");    // Có 2 kết quả
-    search("Chi");   // Có 1 kết quả
-    search("Messi"); // Không có kết quả
+    //* Tim kiem ten
+    search("Quang");    
+    search("Le");  
+    search("Messi"); 
 
-    // 3. Xóa 2 liên hệ
+    //* Xóa 2 liên hệ
     printf("\nThuc hien xoa:\n");
-    delete_contact("An", "0911");   // Xóa 1 trong 2 người tên An
-    delete_contact("Dung", "0944"); // Xóa người duy nhất tên Dung
+    delete_contact("Quang", "0933");   
+    delete_contact("Dang", "0977"); 
+    delete_contact("Ro7", "0900"); 
 
     display();
 

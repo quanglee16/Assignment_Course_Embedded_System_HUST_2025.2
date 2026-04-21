@@ -7,30 +7,30 @@
 typedef struct {
     char name[50];
     int priority;
-    int arrival_order; // Gợi ý mở rộng: Để xử lý công bằng khi cùng ưu tiên
+    int arrival_order; 
 } Patient;
 
 Patient heap[MAX_SIZE];
 int size = 0;
-int order_counter = 0; // Đếm thứ tự đến
+int order_counter = 0; //? Đếm thứ tự đến
 
-// Hàm đổi chỗ 2 bệnh nhân
+//TODO Hàm đổi chỗ 2 bệnh nhân
 void swap(Patient *a, Patient *b) {
     Patient temp = *a;
     *a = *b;
     *b = temp;
 }
 
-// So sánh độ ưu tiên (Xử lý mở rộng: Nếu ưu tiên bằng nhau, ai đến trước - order nhỏ hơn - sẽ đứng trước)
+//TODO So sánh độ ưu tiên (Nếu ưu tiên bằng nhau, ai đến trước sẽ đứng trước)
 int compare(Patient p1, Patient p2) {
     if (p1.priority > p2.priority) return 1;
     if (p1.priority < p2.priority) return -1;
-    // Cùng ưu tiên, xét thứ tự đến
+    //? Cùng ưu tiên, xét thứ tự đến
     if (p1.arrival_order < p2.arrival_order) return 1;
     return -1;
 }
 
-// 1. Hàm push và heapify-up [cite: 491-493]
+//TODO Hàm push và heapify-up
 void push(char *name, int priority) {
     if (size >= MAX_SIZE) return;
 
@@ -43,14 +43,14 @@ void push(char *name, int priority) {
     int i = size;
     size++;
 
-    // Heapify-up: so sánh với cha (parent = (i-1)/2)
+    //? Heapify-up: so sánh với cha (parent = (i-1)/2)
     while (i != 0 && compare(heap[i], heap[(i - 1) / 2]) > 0) {
         swap(&heap[i], &heap[(i - 1) / 2]);
         i = (i - 1) / 2;
     }
 }
 
-// 2. Hàm pop và heapify-down [cite: 483-486]
+//TODO Hàm pop và heapify-down
 Patient pop() {
     Patient top = heap[0];
     heap[0] = heap[size - 1];
@@ -73,7 +73,7 @@ Patient pop() {
     return top;
 }
 
-// 3. Hàm peek 
+//TODO Hàm peek 
 void peek() {
     if (size > 0) {
         printf("Benh nhan uu tien cao nhat hien tai: %s (Priority: %d)\n", heap[0].name, heap[0].priority);
@@ -81,20 +81,20 @@ void peek() {
 }
 
 int main() {
-    // Nhập 5 bệnh nhân
-    printf("--- NHAP BENH NHAN ---\n");
-    push("Nguyen Van A", 3); peek();
-    push("Tran Thi B", 5);   peek();
-    push("Le Van C", 1);     peek();
-    push("Pham Van D", 5);   peek(); // Cùng ưu tiên với B nhưng đến sau
-    push("Hoang Thi E", 4);  peek();
+    //* Nhập 5 bệnh nhân
+    printf("===== NHAP BENH NHAN =====\n");
+    push("Le", 3); peek();
+    push("Dang", 5); peek();
+    push("Quang", 1); peek();
+    push("An", 5); peek(); 
+    push("Binh", 4); peek();
 
-    // Gọi khám lần lượt
-    printf("\n--- THU TU GOI KHAM ---\n");
+    //* Gọi khám lần lượt
+    printf("\n===== THU TU GOI KHAM =====\n");
     int i = 1;
     while (size > 0) {
         Patient p = pop();
-        printf("Luot %d: %-15s | Priority: %d\n", i++, p.name, p.priority);
+        printf("Luot %d: %s | Priority: %d\n", i++, p.name, p.priority);
     }
 
     return 0;
