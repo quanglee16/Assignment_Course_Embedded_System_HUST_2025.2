@@ -42,7 +42,7 @@ void display(Node* head) {
         printf("Empty List\n");
         return;
     }
-    printf("All elements in Single Linked List:");
+    printf("All elements in Single Linked List: ");
     while (current_node != NULL) {
         printf("%d ", current_node->data);
         current_node = current_node->next;
@@ -100,11 +100,10 @@ Node* delnode(Node* head, Node* pelement) {
 
 //TODO (e) Function that deletes all the element of the list
 void freelist(Node* head) {
-    Node* current_node = head;
-    Node* next_node;
-    while (current_node != NULL) {
-        next_node = current_node->next;
-        free(current_node);
-        current_node = next_node;
+    Node* temp;
+    while (head != NULL) {
+        temp = head;
+        head = head->next;
+        free(temp);
     }
 }
