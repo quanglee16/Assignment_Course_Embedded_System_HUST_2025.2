@@ -22,7 +22,6 @@ int main() {
     int values[] = {3, 1, 0, 2, 8, 6, 5, 9};
     int n = sizeof(values) / sizeof(values[0]);
 
-    printf("Add value at tree\n");
     for (int i = 0; i < n; i++) {
         root = addnode(root, values[i]);
     }
