@@ -7,6 +7,10 @@
 
 
 int main(int argc, char *argv[]) {  
+    if (argc < 3) {
+        printf("Usage: %s <file1> <file2>\n", argv[0]);
+        return EXIT_FAILURE;
+    }
     //? Open file 1
     FILE *file_1 = fopen(argv[1], "r");
     if (file_1 == NULL) {
@@ -47,9 +51,7 @@ int main(int argc, char *argv[]) {
         line_number++;
     }
 
-    if (!difference) {
-        printf("Files are the same.\n");
-    }
+    if (!difference) printf("Files are the same.\n");
 
     //? Close files
     fclose(file_1);
