@@ -20,6 +20,9 @@ int main(void) {
     itob(-2, s, 2);
     printf("Bin (-2):      %s\n", s); // -0b10
 
+    itob(15, s, 2);
+    printf("Bin (15):      %s\n", s); //  0b1111
+
     return 0;
 }
 
