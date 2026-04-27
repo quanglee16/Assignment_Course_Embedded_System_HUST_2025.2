@@ -19,7 +19,7 @@
  *
  */
 
-#include "../include/common/course.h"
+#include "../include/common/course1.h"
 
 int main(void){
 

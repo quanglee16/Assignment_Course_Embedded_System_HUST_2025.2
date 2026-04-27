@@ -22,6 +22,7 @@
 #include <stdint.h>
 #include "platform.h"
 #include "memory.h"
+#include "stats.h"
 #include "data.h"
 
 #define DATA_SET_SIZE_W (10)
@@ -134,3 +135,4 @@ int8_t test_memset();
 int8_t test_reverse();
 
 #endif /* __COURSE1_H__ */
+

@@ -17,8 +17,7 @@
  *
  */
 
-#include "../include/common/course.h"
-#include <stdint.h>
+#include "../include/common/course1.h"
 
 int8_t test_data1() {
   uint8_t * ptr;
